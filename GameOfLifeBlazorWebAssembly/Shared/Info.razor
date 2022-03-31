@@ -1,0 +1,23 @@
+﻿<h2>Info</h2>
+<h4>About this website:</h4>
+<ul>
+    <li>Start/Stop: Starts/Stops iterating over generations</li>
+    <li>Randomize state: Randomize a new pattern with alive/dead cells</li>
+    <li>Clear state: Sets all cells dead</li>
+</ul>
+<p>The grid is clickable so you can place alive cells in the grid, even when the game is simulating. Made in <a href link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor">Blazor</a> by 
+    <a href link="https://www.linkedin.com/in/denniz-nilsson-597608163/">Denniz Nilsson</a>
+</p>
+
+<h4>Rules of Conway's Game of Life:</h4>
+<small>From: <a href link="http://pi.math.cornell.edu/~lipa/mec/lesson6.html">http://pi.math.cornell.edu/~lipa/mec/lesson6.html </a></small>
+<p>The initial pattern is the first generation. The second generation evolves from applying the rules 
+    simultaneously to every cell on the game board, i.e. births and deaths happen simultaneously. 
+    Afterwards, the rules are iteratively applied to create future generations. For each generation of
+    the game, a cell's status in the next generation is determined by a set of rules. 
+    These simple rules are as follows:</p>
+
+<ul>
+    <li>If the cell is alive, then it stays alive if it has either 2 or 3 live neighbors</li>
+    <li>If the cell is dead, then it springs to life only in the case that it has 3 live neighbors</li>
+</ul>

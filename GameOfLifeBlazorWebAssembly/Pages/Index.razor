@@ -1,0 +1,153 @@
+﻿@page "/"
+@inject IGame Game
+
+<PageTitle>Conway's Game of Life</PageTitle>
+<div class="row">
+    <div class="col">
+
+
+        <div class="center">
+            <h1>Conway's Game of Life</h1>
+            <hr />
+            <div class="row justify-content-md-center">
+                <div class="row">
+                    <div class="col align-self-auto">
+                        @if (isRunning == false)
+                        {
+                            <button class="btn btn-light border border-1" @onclick="Start">Start</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-light border border-1" @onclick="Stop">Stop</button>
+                        }
+                    </div>
+                    <div class="col align-self-auto ">
+                        <button class="btn btn-light border border-1" @onclick="NewGame">Randomize state</button>
+                    </div>
+                    <div class="col align-self-auto">
+                        <button class="btn btn-light border border-1" @onclick="ClearGame">Clear state</button>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <table class="gameState mt-3">
+                @for (var i = 0; i < Game.Rows; i++)
+                {
+                    <tr>
+                        @for (var j = 0; j < Game.Columns; j++)
+                        {
+                            int row = i;
+                            int column = j;
+
+                            @if (Game.GameState[i, j].IsDead)
+                            {
+                                <td class="cellDead" @onclick="() => Paint((row, column))"></td>
+                            }
+                            else
+                            {
+                                <td class="cellAlive" @onmousedown="() => Paint((row, column))" @onclick="() => Paint((row, column))"></td>
+                            }
+                        }
+                    </tr>
+                }
+            </table>
+            <hr />
+            <hr />
+        </div>
+        </div>
+        <div class="col-md-5 col-lg-4 pl-1 order-md-last"><Info /></div>
+ 
+</div>
+
+
+@code {
+    private bool isRunning = false;
+    private bool isGenerated = false;
+
+    protected override void OnInitialized()
+    {
+        NewGame();
+    }
+
+    private void NewGame()
+    {
+        isGenerated = true;
+        Game.NewGame(50, 50);
+        StateHasChanged();
+    }
+
+    private void ClearGame()
+    {
+        Game.ClearState();
+        StateHasChanged();
+    }
+
+    private void Paint((int, int) coordinates)
+    {
+        Game.PaintCell(coordinates);
+    }
+
+    private async Task Start()
+    {
+        isRunning = true;
+
+        if (isGenerated == false)
+        {
+            isGenerated = true;
+            Game.NewGame(50, 50);
+            StateHasChanged();
+        }
+
+        await Timer();
+    }
+
+    private async Task Timer()
+    {
+        while (true)
+        {
+            await Task.Delay(20);
+            Game.ReturnNewState();
+            StateHasChanged();
+            if (isRunning == false)
+                break;
+        }
+    }
+
+    private void Stop()
+    {
+        isRunning = false;
+    }
+
+
+
+
+    private Task AfterTime()
+    {
+        return Task.CompletedTask;
+    }
+}
+
+<style>
+    body {
+        font-family: 'Source Code Pro', monospace;
+        background-color: darkgray;
+    }
+
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        background-color: white;
+    }
+
+    .container {
+        width: 60%;
+    }
+
+    .gameState {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
