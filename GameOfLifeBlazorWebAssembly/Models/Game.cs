@@ -76,11 +76,7 @@ namespace GameOfLifeBlazorWebAssembly.Models
                 {
                     for (int x = cell.Column - 1; x <= cell.Column + 1; x++)
                     {
-                        if (y == cell.Row && x == cell.Column)
-                        {
-
-                        }
-                        else
+                        if (!(y == cell.Row && x == cell.Column))
                         {
                             int row = y;
                             int column = x;
